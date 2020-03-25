@@ -7,6 +7,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
   private float[] mLastMagnetometer = new float[3];
   private boolean mLastAccelerometerSet = false;
   private boolean mLastMagnetometerSet = false;
+  MediaPlayer mp;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +37,7 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
     mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
     compass_img = (ImageView) findViewById(R.id.img_compass);
     txt_compass = (TextView) findViewById(R.id.txt_azimuth);
-
+    MediaPlayer.create(this, R.raw.sound1);
     start();
   }
 
@@ -80,7 +82,13 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
       where = "E";
     if (mAzimuth <= 80 && mAzimuth > 10)
       where = "NE";
-
+    if(mAzimuth == 345){
+      if (mp != null){
+        mp.release();
+      }
+      mp = MediaPlayer.create(this, R.raw.sound1);
+      mp.start();
+    }
 
     txt_compass.setText(mAzimuth + "° " + where);
   }
