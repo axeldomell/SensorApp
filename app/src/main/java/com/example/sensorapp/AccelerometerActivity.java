@@ -6,6 +6,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ public class AccelerometerActivity extends AppCompatActivity implements SensorEv
   private TextView xValue, yValue, zValue, currentTilt;
   Sensor accelerometerSensor;
   SensorManager sensorManager;
+  MediaPlayer mpLeft;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +23,7 @@ public class AccelerometerActivity extends AppCompatActivity implements SensorEv
     sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
     accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
     sensorManager.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_UI);
+    mpLeft =  MediaPlayer.create(this, R.raw.sound2);
 
     xValue = findViewById(R.id.AccX);
     yValue = findViewById(R.id.AccY);
@@ -39,6 +42,8 @@ public class AccelerometerActivity extends AppCompatActivity implements SensorEv
     }
     if(event.values[0]<0){
       currentTilt.setText("Right");
+
+      mpLeft.start();
     }else{
       currentTilt.setText("Left");
     }
