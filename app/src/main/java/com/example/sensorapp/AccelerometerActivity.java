@@ -53,4 +53,14 @@ public class AccelerometerActivity extends AppCompatActivity implements SensorEv
   public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
   }
+  @Override
+  protected void onPause() {
+    super.onPause();
+    stop();
+  }
+
+  private void stop(){
+    sensorManager.unregisterListener(this, accelerometerSensor);
+  }
+
 }
